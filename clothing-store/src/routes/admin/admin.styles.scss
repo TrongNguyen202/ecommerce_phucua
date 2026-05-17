@@ -1,0 +1,734 @@
+// ─── Variables ───────────────────────────────────────────────────
+$bg:       #0f1117;
+$sidebar:  #16181f;
+$surface:  #1e2028;
+$border:   #2a2d38;
+$text:     #e8e6e1;
+$muted:    #6b7080;
+$accent:   #c8a96e;
+$accent-d: #a8894e;
+$white:    #ffffff;
+
+// Status colors
+$amber:  #f59e0b;
+$blue:   #3b82f6;
+$green:  #22c55e;
+$purple: #a855f7;
+$red:    #ef4444;
+$gray:   #6b7280;
+
+// ─── Layout ───────────────────────────────────────────────────────
+.adm {
+  display: flex;
+  min-height: 100vh;
+  background: $bg;
+  color: $text;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+
+  &--collapsed {
+    .adm-sidebar { width: 64px; }
+    .adm-sidebar__brand { justify-content: center; padding: 1.2rem 0; }
+  }
+}
+
+// ─── Sidebar ─────────────────────────────────────────────────────
+.adm-sidebar {
+  width: 220px;
+  background: $sidebar;
+  border-right: 1px solid $border;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  flex-shrink: 0;
+  transition: width 0.2s ease;
+  overflow: hidden;
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 1.2rem 1.2rem;
+    border-bottom: 1px solid $border;
+    min-height: 60px;
+  }
+
+  &__footer {
+    margin-top: auto;
+    border-top: 1px solid $border;
+    padding: 0.5rem;
+  }
+}
+
+.adm-brand-mark {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: $accent;
+  font-family: 'Georgia', serif;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.adm-brand-text {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: $white;
+  font-family: 'Georgia', serif;
+}
+
+.adm-brand-tag {
+  font-size: 0.6rem;
+  background: $accent;
+  color: #000;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.adm-collapse-btn {
+  margin-left: auto;
+  background: none;
+  border: 1px solid $border;
+  color: $muted;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s;
+
+  &:hover { background: $border; color: $text; }
+}
+
+// ─── Nav ─────────────────────────────────────────────────────────
+.adm-nav {
+  padding: 0.8rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    background: none;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: $muted;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    transition: all 0.15s;
+    white-space: nowrap;
+
+    &:hover { background: $border; color: $text; }
+
+    &--active {
+      background: rgba(200, 169, 110, 0.15);
+      color: $accent;
+
+      .adm-icon svg { stroke: $accent; }
+    }
+
+    &--danger {
+      color: $red;
+      &:hover { background: rgba(239,68,68,0.1); }
+    }
+  }
+}
+
+.adm-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+  }
+}
+
+// ─── Main ─────────────────────────────────────────────────────────
+.adm-main {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+// ─── Tab ─────────────────────────────────────────────────────────
+.adm-tab {
+  padding: 2rem 2.5rem;
+
+  @media (max-width: 768px) { padding: 1.5rem 1rem; }
+
+  &__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  &__title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: $white;
+    margin: 0 0 0.2rem;
+    font-family: 'Georgia', serif;
+  }
+
+  &__sub {
+    font-size: 0.85rem;
+    color: $muted;
+    margin: 0;
+  }
+}
+
+// ─── Stats Grid ───────────────────────────────────────────────────
+.adm-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  @media (max-width: 1024px) { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 640px)  { grid-template-columns: 1fr; }
+}
+
+.adm-stat {
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 14px;
+  padding: 1.2rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+
+  &__icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    .adm-icon svg { width: 20px; height: 20px; }
+  }
+
+  &--blue   &__icon { background: rgba(59,130,246,0.15); color: $blue; }
+  &--green  &__icon { background: rgba(34,197,94,0.15);  color: $green; }
+  &--amber  &__icon { background: rgba(245,158,11,0.15); color: $amber; }
+  &--purple &__icon { background: rgba(168,85,247,0.15); color: $purple; }
+
+  &__label {
+    font-size: 0.78rem;
+    color: $muted;
+    margin: 0 0 4px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+
+  &__value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $white;
+    margin: 0 0 2px;
+    line-height: 1;
+  }
+
+  &__sub {
+    font-size: 0.75rem;
+    color: $muted;
+    margin: 0;
+  }
+}
+
+// ─── Panels ───────────────────────────────────────────────────────
+.adm-panels {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  @media (max-width: 900px) { grid-template-columns: 1fr; }
+}
+
+.adm-panel {
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 14px;
+  padding: 1.5rem;
+
+  &--wide { }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  &__title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: $white;
+    margin: 0 0 1rem;
+  }
+}
+
+// ─── Chart ───────────────────────────────────────────────────────
+.adm-chart {
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+  height: 120px;
+  margin-bottom: 0.8rem;
+
+  &__col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+  }
+
+  &__bar-wrap {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  &__bar {
+    width: 100%;
+    background: linear-gradient(to top, $accent, rgba(200,169,110,0.4));
+    border-radius: 4px 4px 0 0;
+    min-height: 3px;
+    transition: height 0.3s ease;
+
+    &:hover { background: $accent; }
+  }
+
+  &__label {
+    font-size: 0.65rem;
+    color: $muted;
+    white-space: nowrap;
+  }
+
+  &__totals {
+    display: flex;
+    gap: 6px;
+    margin-top: 0.5rem;
+  }
+
+  &__total-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+  }
+
+  &__total-date { font-size: 0.6rem; color: $muted; }
+  &__total-val  { font-size: 0.7rem; color: $text; font-weight: 600; }
+}
+
+// ─── Top list ────────────────────────────────────────────────────
+.adm-top-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.adm-top-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.85rem;
+}
+
+.adm-top-rank {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: $border;
+  color: $muted;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.adm-top-name { flex: 1; color: $text; }
+.adm-top-val  { color: $accent; font-weight: 600; font-size: 0.8rem; white-space: nowrap; }
+
+// ─── Toolbar ─────────────────────────────────────────────────────
+.adm-toolbar {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.adm-search {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 10px;
+  padding: 8px 14px;
+  flex: 1;
+  min-width: 200px;
+
+  .adm-icon svg { width: 15px; height: 15px; color: $muted; }
+
+  input {
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 0.88rem;
+    color: $text;
+    font-family: inherit;
+    width: 100%;
+
+    &::placeholder { color: $muted; }
+  }
+}
+
+.adm-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.adm-filter-btn {
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1px solid $border;
+  background: $surface;
+  color: $muted;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  white-space: nowrap;
+
+  &:hover { border-color: $accent; color: $accent; }
+
+  &--active {
+    background: rgba(200,169,110,0.15);
+    border-color: $accent;
+    color: $accent;
+  }
+}
+
+// ─── Table ───────────────────────────────────────────────────────
+.adm-table-wrap {
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 14px;
+  overflow: hidden;
+
+  &--narrow { flex: 1; min-width: 0; }
+}
+
+.adm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.87rem;
+
+  th {
+    text-align: left;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: $muted;
+    padding: 12px 16px;
+    border-bottom: 1px solid $border;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 16px;
+    color: $text;
+    border-bottom: 1px solid rgba(42,45,56,0.5);
+    vertical-align: middle;
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+
+  &__row--clickable {
+    cursor: pointer;
+    transition: background 0.1s;
+    &:hover td { background: rgba(255,255,255,0.03); }
+  }
+
+  &__row--selected td { background: rgba(200,169,110,0.08) !important; }
+
+  &__mono  { font-family: monospace; font-size: 0.82rem; color: $muted; }
+  &__muted { color: $muted; font-size: 0.82rem; }
+  &__price { font-weight: 600; color: $accent; white-space: nowrap; }
+}
+
+// ─── Badge ───────────────────────────────────────────────────────
+.adm-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+
+  &--amber  { background: rgba(245,158,11,0.15);  color: $amber;  }
+  &--blue   { background: rgba(59,130,246,0.15);  color: $blue;   }
+  &--green  { background: rgba(34,197,94,0.15);   color: $green;  }
+  &--purple { background: rgba(168,85,247,0.15);  color: $purple; }
+  &--red    { background: rgba(239,68,68,0.15);   color: $red;    }
+  &--gray   { background: rgba(107,114,128,0.15); color: $gray;   }
+}
+
+// ─── Toggle ──────────────────────────────────────────────────────
+.adm-toggle {
+  width: 38px;
+  height: 22px;
+  border-radius: 11px;
+  background: $border;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s;
+  flex-shrink: 0;
+
+  &--on { background: $green; }
+
+  &__knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: $white;
+    transition: transform 0.2s;
+
+    .adm-toggle--on & { transform: translateX(16px); }
+  }
+}
+
+// ─── Product cell ─────────────────────────────────────────────────
+.adm-product-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.adm-product-thumb {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: $border;
+  flex-shrink: 0;
+}
+
+.adm-product-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: $text;
+  margin: 0 0 2px;
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.adm-product-slug {
+  font-size: 0.75rem;
+  color: $muted;
+  margin: 0;
+  font-family: monospace;
+}
+
+// ─── Orders layout ────────────────────────────────────────────────
+.adm-orders-layout {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+// ─── Order detail panel ───────────────────────────────────────────
+.adm-order-detail {
+  width: 320px;
+  flex-shrink: 0;
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 14px;
+  padding: 1.2rem;
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    h3 { font-size: 0.95rem; font-weight: 700; color: $white; margin: 0; }
+  }
+
+  &__section {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $border;
+    &:last-child { border-bottom: none; }
+  }
+
+  &__label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: $accent;
+    margin: 0 0 6px;
+  }
+
+  &__val   { font-size: 0.88rem; color: $text; font-weight: 600; margin: 0 0 2px; }
+  &__muted { font-size: 0.82rem; color: $muted; margin: 0 0 2px; }
+
+  &__total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    font-weight: 700;
+    color: $white;
+    margin: 0.5rem 0 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid $border;
+  }
+}
+
+.adm-order-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  margin-bottom: 5px;
+
+  &__name { flex: 1; color: $text; }
+  &__qty  { color: $muted; }
+  &__price { color: $accent; font-weight: 600; white-space: nowrap; }
+}
+
+.adm-close {
+  background: none;
+  border: 1px solid $border;
+  color: $muted;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+
+  &:hover { background: $border; color: $text; }
+}
+
+.adm-status-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 0.5rem;
+}
+
+.adm-status-opt {
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid $border;
+  background: none;
+  font-size: 0.75rem;
+  color: $muted;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+
+  &:hover { border-color: $accent; color: $accent; }
+
+  &--active {
+    background: rgba(200,169,110,0.15);
+    border-color: $accent;
+    color: $accent;
+    font-weight: 600;
+  }
+}
+
+// ─── Misc ────────────────────────────────────────────────────────
+.adm-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem;
+}
+
+.adm-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid $border;
+  border-top-color: $accent;
+  border-radius: 50%;
+  animation: adm-spin 0.7s linear infinite;
+}
+
+@keyframes adm-spin { to { transform: rotate(360deg); } }
+
+.adm-empty {
+  text-align: center;
+  padding: 3rem;
+  color: $muted;
+  font-size: 0.9rem;
+}
+
+.adm-empty-sm {
+  font-size: 0.85rem;
+  color: $muted;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.adm-link {
+  background: none;
+  border: none;
+  color: $accent;
+  font-size: 0.82rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+
+  &:hover { opacity: 0.7; }
+}

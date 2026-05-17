@@ -1,0 +1,21 @@
+# Python
+backend/venv/
+backend/.venv/
+backend/__pycache__/
+backend/*.sqlite3
+
+# Node
+clothing-store/node_modules/
+clothing-store/dist/
+
+# Env
+.env
+backend/.env
+clothing-store/.env
+
+# Docker
+postgres_data/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,30 @@
+.shop-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.cat-name,
+.cat-page-name {
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+
+  .see-link,
+  .product-count {
+    margin-left: 15px;
+    font-size: 16px;
+    font-weight: normal;
+    text-transform: none;
+  }
+}
+
+.cat-page-name {
+  font-size: 40px;
+  margin: 0 0 20px;
+  align-items: baseline;
+
+  .product-count {
+    font-size: 20px;
+  }
+}

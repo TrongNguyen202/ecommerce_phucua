@@ -1,0 +1,54 @@
+services:
+
+  db:
+    image: postgres:16-alpine
+    container_name: cloth_db
+
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: ecommerce_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "123456"
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+    container_name: cloth_backend
+
+    restart: unless-stopped
+
+    environment:
+      DATABASE_URL: postgres://postgres:123456@db:5432/ecommerce_db
+      DEBUG: "True"
+      SECRET_KEY: django-secret-key
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./clothing-store
+      dockerfile: Dockerfile
+
+    container_name: cloth_frontend
+
+    ports:
+      - "80:80"
+
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

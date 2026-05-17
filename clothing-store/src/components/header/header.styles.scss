@@ -1,0 +1,249 @@
+$cream: #f5f0e8;
+$dark: #1a1a1a;
+$mid: #6b6459;
+$accent: #c8a96e;
+$border: #e8e0d4;
+$white: #ffffff;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(245, 240, 232, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid $border;
+
+  &__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  // Logo
+ &__logo-img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.08));
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+  // Search
+  &__search {
+    flex: 1;
+    max-width: 480px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: $white;
+    border: 1.5px solid $border;
+    border-radius: 40px;
+    padding: 0 1rem;
+    height: 42px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &--focused {
+      border-color: $accent;
+      box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.15);
+    }
+
+    &-icon {
+      width: 16px;
+      height: 16px;
+      color: $mid;
+      flex-shrink: 0;
+    }
+
+    &-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      padding: 0 0.6rem;
+      font-size: 0.9rem;
+      color: $dark;
+      font-family: inherit;
+
+      &::placeholder {
+        color: #b0a898;
+      }
+    }
+
+    &-clear {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: $mid;
+      font-size: 0.75rem;
+      padding: 2px 4px;
+      border-radius: 50%;
+      transition: background 0.15s;
+
+      &:hover { background: $border; }
+    }
+  }
+
+  // Actions
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  &__action-btn {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $dark;
+    transition: background 0.15s;
+
+    svg { width: 22px; height: 22px; }
+
+    &:hover { background: $border; }
+  }
+
+  &__badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: $accent;
+    color: $white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // Profile
+  &__profile {
+    position: relative;
+  }
+
+  &__profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: 1.5px solid $border;
+    border-radius: 40px;
+    padding: 6px 14px 6px 8px;
+    cursor: pointer;
+    color: $dark;
+    transition: border-color 0.2s, background 0.2s;
+
+    svg { width: 20px; height: 20px; }
+
+    &:hover {
+      border-color: $accent;
+      background: $white;
+    }
+  }
+
+  &__avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__username {
+    font-size: 0.85rem;
+    font-weight: 500;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // Dropdown
+  &__dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: $white;
+    border: 1px solid $border;
+    border-radius: 12px;
+    min-width: 200px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    overflow: hidden;
+    animation: dropIn 0.15s ease;
+  }
+
+  &__dropdown-user {
+    padding: 14px 16px 12px;
+  }
+
+  &__dropdown-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $dark;
+    margin: 0 0 2px;
+  }
+
+  &__dropdown-email {
+    font-size: 0.78rem;
+    color: $mid;
+    margin: 0;
+  }
+
+  &__dropdown-divider {
+    height: 1px;
+    background: $border;
+  }
+
+  &__dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 11px 16px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 0.88rem;
+    color: $dark;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: inherit;
+
+    &:hover { background: $cream; }
+
+    &--danger {
+      color: #c0392b;
+      &:hover { background: #fff5f5; }
+    }
+  }
+}
+
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  .header {
+    &__inner { padding: 0 1rem; gap: 1rem; }
+    &__logo-text { display: none; }
+    &__username { display: none; }
+    &__search { max-width: unset; }
+  }
+}
