@@ -5,15 +5,22 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files trước để tận dụng Docker cache
-COPY package.json package-lock.json ./
+# Nhận build args từ docker-compose
+ARG VITE_API_URL
+ARG VITE_BANK_NUMBER
+ARG VITE_BANK_NAME
+ARG VITE_ACCOUNT_NAME
 
+# Vite đọc biến môi trường lúc build, phải set ENV
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_BANK_NUMBER=$VITE_BANK_NUMBER
+ENV VITE_BANK_NAME=$VITE_BANK_NAME
+ENV VITE_ACCOUNT_NAME=$VITE_ACCOUNT_NAME
+
+COPY package.json package-lock.json ./
 RUN npm ci
 
-# Copy toàn bộ source
 COPY . .
-
-# Build production
 RUN npm run build
 
 # ─────────────────────────────────────────────
@@ -21,10 +28,7 @@ RUN npm run build
 # ─────────────────────────────────────────────
 FROM nginx:alpine AS production
 
-# Copy dist từ stage build
 COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Copy custom nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
