@@ -4,6 +4,7 @@ import Header from "../../components/header/header.component";
 import Footer  from "../../components/footer/footer.component";
 import { useProduct } from "../../store/hooks";
 import { useCart }    from "../../store/hooks";
+import AIChat from "../aichat/ai-chat.component";
 import "./home.styles.scss";
 
 // ─── Product Card ────────────────────────────────────────────────
@@ -237,7 +238,7 @@ const bestsellers = products
           </div>
         </div>
       </section>
-
+      <AIChat />
       <Footer />
     </div>
   );
