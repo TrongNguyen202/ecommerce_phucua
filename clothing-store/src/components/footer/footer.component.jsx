@@ -1,45 +1,129 @@
 import { Link } from "react-router-dom";
+import { FaFacebookF, FaInstagram, FaEnvelope } from "react-icons/fa";
 import "./footer.styles.scss";
 
 const Footer = () => (
   <footer className="footer">
     <div className="footer__inner">
 
+      {/* BRAND */}
       <div className="footer__brand">
-        <span className="footer__logo">
-          <span className="footer__logo-mark">C</span>
-          <span className="footer__logo-text">LOTH</span>
-        </span>
-        <p className="footer__tagline">Thời trang tinh tế — Phong cách của bạn.</p>
+        <img
+          src="https://cdn.corenexis.com/files/c/9593613720.png"
+          alt="Cloth Logo"
+          className="footer__logo-img"
+        />
+
+        <p className="footer__tagline">
+          Áo thun Thể Thao — Phong cách của bạn.
+        </p>
+
+        {/* SOCIAL ICONS */}
+        {/* <div className="footer__social">
+          <a
+            href="https://www.facebook.com/minh.phu.15683"
+            target="_blank"
+            rel="noreferrer"
+            className="footer__social-icon"
+          >
+            <FaFacebookF />
+          </a>
+
+          <a
+            href="https://www.instagram.com/sporttn_official/"
+            target="_blank"
+            rel="noreferrer"
+            className="footer__social-icon"
+          >
+            <FaInstagram />
+          </a>
+
+          <a
+            href="mailto:phucua2004@gmail.com"
+            className="footer__social-icon"
+          >
+            <FaEnvelope />
+          </a>
+        </div> */}
+        <div className="footer__social">
+  <a
+    href="https://www.facebook.com/minh.phu.15683"
+    target="_blank"
+    rel="noreferrer"
+    className="footer__social-icon footer__social-icon--fb"
+  >
+    <FaFacebookF />
+  </a>
+
+  <a
+    href="https://www.instagram.com/sporttn_official/"
+    target="_blank"
+    rel="noreferrer"
+    className="footer__social-icon footer__social-icon--ig"
+  >
+    <FaInstagram />
+  </a>
+
+  <a
+    href="mailto:phucua2004@gmail.com"
+    className="footer__social-icon footer__social-icon--mail"
+  >
+    <FaEnvelope />
+  </a>
+</div>
       </div>
 
+      {/* COLUMNS */}
       <div className="footer__cols">
+
+        {/* COLLECTIONS */}
         <div className="footer__col">
-          <h4 className="footer__col-title">Khám phá</h4>
-          <Link to="/" className="footer__link">Trang chủ</Link>
-          <Link to="/shop" className="footer__link">Cửa hàng</Link>
-          <Link to="/shop?is_featured=true" className="footer__link">Bestsellers</Link>
+          <h4 className="footer__col-title">Collections</h4>
+
+          <Link to="/collections/home" className="footer__link">Home</Link>
+          <Link to="/collections/music-tee" className="footer__link">Music Tee</Link>
+          <Link to="/collections/movies-tee" className="footer__link">Movies Tee</Link>
+          <Link to="/collections/football-tee" className="footer__link">Football Tee</Link>
+          <Link to="/collections/basketball-tee" className="footer__link">Basketball Tee</Link>
+          <Link to="/collections/soccer-tee" className="footer__link">Soccer Tee</Link>
+          <Link to="/collections/ufc-wwe-tee" className="footer__link">UFC & WWE Tee</Link>
+          <Link to="/collections/baseball-tee" className="footer__link">Baseball Tee</Link>
+          <Link to="/collections/vintage-tee" className="footer__link">Vintage Tee</Link>
+          <Link to="/collections/formula-one-tee" className="footer__link">Formula One Tee</Link>
         </div>
 
+        {/* ACCOUNT */}
         <div className="footer__col">
-          <h4 className="footer__col-title">Tài khoản</h4>
-          <Link to="/login"   className="footer__link">Đăng nhập</Link>
-          <Link to="/register" className="footer__link">Đăng ký</Link>
-          <Link to="/orders"  className="footer__link">Đơn hàng</Link>
+          <h4 className="footer__col-title">Account</h4>
+
+          <Link to="/login" className="footer__link">Login</Link>
+          <Link to="/register" className="footer__link">Register</Link>
+          <Link to="/orders" className="footer__link">Orders</Link>
         </div>
 
+        {/* SUPPORT */}
         <div className="footer__col">
-          <h4 className="footer__col-title">Hỗ trợ</h4>
-          <a href="mailto:support@cloth.vn" className="footer__link">support@cloth.vn</a>
-          <a href="tel:0900000000" className="footer__link">0900 000 000</a>
-          <span className="footer__link footer__link--muted">8:00 – 22:00 hàng ngày</span>
+          <h4 className="footer__col-title">Support</h4>
+
+          <a href="mailto:support@sporttr.vn" className="footer__link">
+            support@sporttr.vn
+          </a>
+
+          <a href="tel:0900000000" className="footer__link">
+            0900 000 000
+          </a>
+
+          <span className="footer__link footer__link--muted">
+            8:00 – 22:00 hàng ngày
+          </span>
         </div>
+
       </div>
-
     </div>
 
+    {/* BOTTOM */}
     <div className="footer__bottom">
-      <p>© {new Date().getFullYear()} Cloth. Tất cả quyền được bảo lưu.</p>
+      <p>© {new Date().getFullYear()} Sporttp. All rights reserved.</p>
     </div>
   </footer>
 );

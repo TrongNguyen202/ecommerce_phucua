@@ -551,3 +551,72 @@ $white: #ffffff;
     grid-template-columns: 1fr;
   }
 }
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 10px 0;
+}
+
+/* CARD */
+.cat-card {
+  position: relative;
+  height: 320px; // 👈 TO NHƯ PRODUCT CARD
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+
+  background: #111;
+  border: 1px solid #222;
+
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+  }
+}
+
+/* IMAGE */
+.cat-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  transition: transform 0.5s ease;
+}
+
+.cat-card:hover .cat-card__img {
+  transform: scale(1.1);
+}
+
+/* OVERLAY */
+.cat-card__overlay {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: flex-end;
+
+  padding: 18px;
+
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0.1),
+    transparent
+  );
+
+  color: #fff;
+}
+
+.cat-card__overlay h3 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* ACTIVE STATE */
+.cat-card--active {
+  border: 2px solid #fff;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
+}

@@ -47,26 +47,64 @@ const ProductCard = ({ product, onAddToCart }) => {
 };
 
 // ─── Category Tab ────────────────────────────────────────────────
+// const CategoryTabs = ({ categories, activeSlug, onSelect }) => (
+//   <div className="cat-tabs">
+//     <button
+//       className={`cat-tabs__item ${!activeSlug ? "cat-tabs__item--active" : ""}`}
+//       onClick={() => onSelect(null)}
+//     >
+//       Tất cả
+//     </button>
+//     {categories.map((cat) => (
+//       <button
+//         key={cat.id}
+//         className={`cat-tabs__item ${activeSlug === cat.slug ? "cat-tabs__item--active" : ""}`}
+//         onClick={() => onSelect(cat.slug)}
+//       >
+//         {cat.name}
+//       </button>
+//     ))}
+//   </div>
+// );
 const CategoryTabs = ({ categories, activeSlug, onSelect }) => (
-  <div className="cat-tabs">
-    <button
-      className={`cat-tabs__item ${!activeSlug ? "cat-tabs__item--active" : ""}`}
+  <div className="cat-grid">
+    {/* ALL */}
+    <div
+      className={`cat-card ${!activeSlug ? "cat-card--active" : ""}`}
       onClick={() => onSelect(null)}
     >
-      Tất cả
-    </button>
+      <img
+        src="https://tse1.mm.bing.net/th/id/OIP.IAjyExlxl91euz8tn3NW4gHaFP?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
+        alt="all"
+        className="cat-card__img"
+      />
+      <div className="cat-card__overlay">
+        <h3>ALL PRODUCTS</h3>
+      </div>
+    </div>
+
+    {/* CATEGORIES */}
     {categories.map((cat) => (
-      <button
+      <div
         key={cat.id}
-        className={`cat-tabs__item ${activeSlug === cat.slug ? "cat-tabs__item--active" : ""}`}
+        className={`cat-card ${
+          activeSlug === cat.slug ? "cat-card--active" : ""
+        }`}
         onClick={() => onSelect(cat.slug)}
       >
-        {cat.name}
-      </button>
+        <img
+          src={cat.image || "https://placehold.co/600x600"}
+          alt={cat.name}
+          className="cat-card__img"
+        />
+
+        <div className="cat-card__overlay">
+          <h3>{cat.name}</h3>
+        </div>
+      </div>
     ))}
   </div>
 );
-
 // ─── Skeleton ────────────────────────────────────────────────────
 const SkeletonCard = () => (
   <div className="skeleton-card">

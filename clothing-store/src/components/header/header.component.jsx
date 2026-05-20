@@ -162,7 +162,7 @@ const Header = ({ onSearch }) => {
         {/* LEFT MENU */}
         <nav className="header__nav">
           <Link to="/">HOME</Link>
-          <Link to="/shop">SHOP</Link>
+          <Link to="/products">SHOP</Link>
           <Link to="/categories">CATEGORIES</Link>
           <Link to="/orders">TRACK ORDER</Link>
         </nav>
@@ -171,7 +171,7 @@ const Header = ({ onSearch }) => {
         <Link to="/" className="header__logo">
           <img
             src="https://cdn.corenexis.com/files/c/9593613720.png"
-            alt="Cloth Logo"
+            alt="Sporttp Logo"
             className="header__logo-img"
           />
         </Link>
