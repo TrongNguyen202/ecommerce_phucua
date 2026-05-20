@@ -380,3 +380,174 @@ $white: #ffffff;
   color: $mid;
   font-size: 0.95rem;
 }
+.home {
+  background: #fff;
+}
+
+/* ───────── BANNER ───────── */
+
+.top-banner {
+  padding: 14px;
+
+  &__slider {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  &__img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+}
+
+/* ───────── COLLECTION ───────── */
+
+.collection-section {
+  padding: 30px 20px 10px;
+
+  &__head {
+    text-align: center;
+    margin-bottom: 30px;
+
+    h2 {
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin: 0;
+    }
+  }
+}
+
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 520px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ───────── CATEGORY ───────── */
+
+.category-section {
+  padding: 20px;
+}
+
+/* ───────── PRODUCT CARD ───────── */
+
+.product-card {
+  cursor: pointer;
+
+  &__img-wrap {
+    background: #f6f6f6;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  &__img {
+    width: 100%;
+    aspect-ratio: 1/1.2;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover &__img {
+    transform: scale(1.04);
+  }
+
+  &__info {
+    padding-top: 12px;
+    text-align: center;
+  }
+
+  &__cat {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+  }
+
+  &__name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  &__price {
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  &__add {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: none;
+    background: #000;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    opacity: 0;
+    transition: 0.25s ease;
+    cursor: pointer;
+  }
+
+  &:hover &__add {
+    opacity: 1;
+  }
+}
+
+/* ───────── SECTION ───────── */
+
+.section {
+  padding: 50px 20px;
+
+  &__head {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  &__title {
+    font-size: 38px;
+    margin-bottom: 8px;
+  }
+
+  &__sub {
+    color: #777;
+  }
+}
+
+/* ───────── PRODUCTS GRID ───────── */
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 520px) {
+    grid-template-columns: 1fr;
+  }
+}

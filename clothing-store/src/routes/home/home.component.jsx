@@ -132,116 +132,188 @@ const bestsellers = products
   ?.filter((p) => p.is_featured === true)
   ?.slice(0, 8) || [];
 
+  // return (
+  //   <div className="home">
+  //     <Header onSearch={handleSearch} />
+
+  //     {/* ── HERO ── */}
+  //     <section className="hero">
+  //       <div className="hero__content">
+  //         <p className="hero__eyebrow">Bộ sưu tập mới 2025</p>
+  //         <h1 className="hero__title">
+  //           Wear It.<br />Live Style
+  //         </h1>
+  //         <p className="hero__sub">
+  //           Thời trang cao cấp, chất liệu bền vững — dành cho người biết mình muốn gì.
+  //         </p>
+  //         <div className="hero__btns">
+  //           <button className="btn btn--primary" onClick={() => navigate("/shop")}>
+  //             Khám phá ngay
+  //           </button>
+  //           <button className="btn btn--ghost" onClick={() => {
+  //             document.getElementById("bestsellers")?.scrollIntoView({ behavior: "smooth" });
+  //           }}>
+  //             Bestsellers
+  //           </button>
+  //         </div>
+  //       </div>
+  //       <div className="hero__visual">
+  //         <div className="hero__blob" />
+  //         <img
+  //           src="https://pub-1407f82391df4ab1951418d04be76914.r2.dev/uploads/32631a4b-4089-4840-a361-1b14a369d762.png" 
+  //           alt="hero fashion"
+  //           className="hero__img"
+  //         />
+  //       </div>
+  //     </section>
+
+  //     {/* ── CATEGORIES ── */}
+  //     <section className="section">
+  //       <div className="section__inner">
+  //         <div className="section__head">
+  //           <h2 className="section__title">Danh mục</h2>
+  //           <p className="section__sub">Chọn phong cách của bạn</p>
+  //         </div>
+
+  //         <CategoryTabs
+  //           categories={categories}
+  //           activeSlug={activeCategory}
+  //           onSelect={handleCategorySelect}
+  //         />
+
+  //         {/* Products grid */}
+  //         <div className="products-grid">
+  //           {loading
+  //             ? Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)
+  //             : products.length === 0
+  //             ? (
+  //               <div className="empty-state">
+  //                 <p>Không tìm thấy sản phẩm nào.</p>
+  //               </div>
+  //             )
+  //             : products.map((p) => (
+  //               <ProductCard key={p.id} product={p} onAddToCart={handleAddToCart} />
+  //             ))
+  //           }
+  //         </div>
+
+  //         {products.length > 0 && (
+  //           <div className="section__more">
+  //             <button className="btn btn--outline" onClick={() => navigate("/shop")}>
+  //               Xem tất cả sản phẩm
+  //             </button>
+  //           </div>
+  //         )}
+  //       </div>
+  //     </section>
+
+  //     {/* ── BANNER ── */}
+  //     <section className="banner">
+  //       <div className="banner__inner">
+  //         <p className="banner__label">Ưu đãi đặc biệt</p>
+  //         <h2 className="banner__title">Miễn phí vận chuyển cho đơn từ 500.000₫</h2>
+  //         <button className="btn btn--primary" onClick={() => navigate("/shop")}>
+  //           Mua ngay
+  //         </button>
+  //       </div>
+  //     </section>
+
+  //     {/* ── BESTSELLERS ── */}
+  //     <section className="section" id="bestsellers">
+  //       <div className="section__inner">
+  //         <div className="section__head">
+  //           <h2 className="section__title">Bestsellers</h2>
+  //           <p className="section__sub">Những sản phẩm được yêu thích nhất</p>
+  //         </div>
+
+  //         <div className="products-grid">
+  //           {loading
+  //             ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
+  //             : bestsellers.length === 0
+  //             ? <p className="empty-state">Chưa có sản phẩm nổi bật.</p>
+  //             : bestsellers.map((p) => (
+  //               <ProductCard key={p.id} product={p} onAddToCart={handleAddToCart} />
+  //             ))
+  //           }
+  //         </div>
+  //       </div>
+  //     </section>
+  //     <AIChat />
+  //     <Footer />
+  //   </div>
+  // );
   return (
-    <div className="home">
-      <Header onSearch={handleSearch} />
+  <div className="home">
+    <Header onSearch={handleSearch} />
 
-      {/* ── HERO ── */}
-      <section className="hero">
-        <div className="hero__content">
-          <p className="hero__eyebrow">Bộ sưu tập mới 2025</p>
-          <h1 className="hero__title">
-            Wear It.<br />Live Style
-          </h1>
-          <p className="hero__sub">
-            Thời trang cao cấp, chất liệu bền vững — dành cho người biết mình muốn gì.
-          </p>
-          <div className="hero__btns">
-            <button className="btn btn--primary" onClick={() => navigate("/shop")}>
-              Khám phá ngay
-            </button>
-            <button className="btn btn--ghost" onClick={() => {
-              document.getElementById("bestsellers")?.scrollIntoView({ behavior: "smooth" });
-            }}>
-              Bestsellers
-            </button>
-          </div>
+    {/* ───────── HERO BANNER ───────── */}
+    <section className="top-banner">
+      <div className="top-banner__slider">
+        <img
+          src="https://img.staticdj.com/d27e5d131b351345095721df91369b49_1024x.jpg"
+          alt="banner"
+          className="top-banner__img"
+        />
+      </div>
+    </section>
+
+    {/* ───────── SHOP BY COLLECTION ───────── */}
+    <section className="collection-section">
+      <div className="collection-section__head">
+        <h2>SHOP BY COLLECTION</h2>
+      </div>
+
+      <div className="collection-grid">
+        {loading
+          ? Array.from({ length: 8 }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))
+          : products.map((p) => (
+              <ProductCard
+                key={p.id}
+                product={p}
+                onAddToCart={handleAddToCart}
+              />
+            ))}
+      </div>
+    </section>
+
+    {/* ───────── CATEGORY TABS ───────── */}
+    <section className="category-section">
+      <CategoryTabs
+        categories={categories}
+        activeSlug={activeCategory}
+        onSelect={handleCategorySelect}
+      />
+    </section>
+
+    {/* ───────── BEST SELLERS ───────── */}
+    <section className="section" id="bestsellers">
+      <div className="section__inner">
+        <div className="section__head">
+          <h2 className="section__title">BEST SELLERS</h2>
         </div>
-        <div className="hero__visual">
-          <div className="hero__blob" />
-          <img
-            src="https://pub-1407f82391df4ab1951418d04be76914.r2.dev/uploads/32631a4b-4089-4840-a361-1b14a369d762.png" 
-            alt="hero fashion"
-            className="hero__img"
-          />
-        </div>
-      </section>
 
-      {/* ── CATEGORIES ── */}
-      <section className="section">
-        <div className="section__inner">
-          <div className="section__head">
-            <h2 className="section__title">Danh mục</h2>
-            <p className="section__sub">Chọn phong cách của bạn</p>
-          </div>
-
-          <CategoryTabs
-            categories={categories}
-            activeSlug={activeCategory}
-            onSelect={handleCategorySelect}
-          />
-
-          {/* Products grid */}
-          <div className="products-grid">
-            {loading
-              ? Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)
-              : products.length === 0
-              ? (
-                <div className="empty-state">
-                  <p>Không tìm thấy sản phẩm nào.</p>
-                </div>
-              )
-              : products.map((p) => (
-                <ProductCard key={p.id} product={p} onAddToCart={handleAddToCart} />
+        <div className="products-grid">
+          {loading
+            ? Array.from({ length: 4 }).map((_, i) => (
+                <SkeletonCard key={i} />
               ))
-            }
-          </div>
-
-          {products.length > 0 && (
-            <div className="section__more">
-              <button className="btn btn--outline" onClick={() => navigate("/shop")}>
-                Xem tất cả sản phẩm
-              </button>
-            </div>
-          )}
+            : bestsellers.map((p) => (
+                <ProductCard
+                  key={p.id}
+                  product={p}
+                  onAddToCart={handleAddToCart}
+                />
+              ))}
         </div>
-      </section>
+      </div>
+    </section>
 
-      {/* ── BANNER ── */}
-      <section className="banner">
-        <div className="banner__inner">
-          <p className="banner__label">Ưu đãi đặc biệt</p>
-          <h2 className="banner__title">Miễn phí vận chuyển cho đơn từ 500.000₫</h2>
-          <button className="btn btn--primary" onClick={() => navigate("/shop")}>
-            Mua ngay
-          </button>
-        </div>
-      </section>
-
-      {/* ── BESTSELLERS ── */}
-      <section className="section" id="bestsellers">
-        <div className="section__inner">
-          <div className="section__head">
-            <h2 className="section__title">Bestsellers</h2>
-            <p className="section__sub">Những sản phẩm được yêu thích nhất</p>
-          </div>
-
-          <div className="products-grid">
-            {loading
-              ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
-              : bestsellers.length === 0
-              ? <p className="empty-state">Chưa có sản phẩm nổi bật.</p>
-              : bestsellers.map((p) => (
-                <ProductCard key={p.id} product={p} onAddToCart={handleAddToCart} />
-              ))
-            }
-          </div>
-        </div>
-      </section>
-      <AIChat />
-      <Footer />
-    </div>
-  );
+    <AIChat />
+    <Footer />
+  </div>
+);
 };
 
 export default Home;

@@ -3,7 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../store/hooks";
 import "./auth.styles.scss";
 import { initCSRF } from "../../utils/api/api";
-
+import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 const Login = () => {
   const navigate = useNavigate();
   const { login, isLoggedIn, loading, error } = useAuth();
@@ -131,7 +132,37 @@ useEffect(() => {
           </form>
 
           <div className="auth-divider"><span>hoặc</span></div>
+           <div className="google-login">
+  <GoogleLogin
+    theme="outline"
+    size="large"
+    shape="pill"
+    text="signin_with"
+    width="380"
+    onSuccess={async (credentialResponse) => {
+      try {
+        const res = await axios.post(
+          "http://localhost:8000/api/auth/users/google/",
+          {
+            token: credentialResponse.credential,
+          }
+        );
 
+        localStorage.setItem("access_token", res.data.access);
+        localStorage.setItem("refresh", res.data.refresh);
+
+        navigate("/");
+        window.location.reload();
+
+      } catch (err) {
+        console.error(err);
+      }
+    }}
+    onError={() => {
+      console.log("Google Login Failed");
+    }}
+  />
+</div>
           <Link to="/" className="auth-guest">
             Tiếp tục không cần đăng nhập →
           </Link>
