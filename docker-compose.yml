@@ -60,7 +60,7 @@ services:
       context: ./clothing-store
       dockerfile: Dockerfile
       args:
-        VITE_API_URL: http://localhost:8000/api
+        VITE_API_URL: https://sundesign.io/api
         VITE_BANK_NUMBER: "9968083967"
         VITE_BANK_NAME: VCB
         VITE_ACCOUNT_NAME: NGUYEN DINH TRONG

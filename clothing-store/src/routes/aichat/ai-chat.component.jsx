@@ -26,7 +26,7 @@ export default function AIChat() {
     try {
 
       const res = await axios.post(
-        "http://localhost:8000/api/chatbot/chat/",
+        "https://sundesign.io/api/chatbot/chat/",
         {
           message
         },

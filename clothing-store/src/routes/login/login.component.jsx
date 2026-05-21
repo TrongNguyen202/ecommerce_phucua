@@ -142,7 +142,7 @@ useEffect(() => {
     onSuccess={async (credentialResponse) => {
       try {
         const res = await axios.post(
-          "http://localhost:8000/api/auth/users/google/",
+          "https://sundesign.io/api/auth/users/google/",
           {
             token: credentialResponse.credential,
           }
