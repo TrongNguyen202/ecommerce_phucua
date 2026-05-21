@@ -47,13 +47,15 @@ const ProductsPage = () => {
   }, []);
 
   useEffect(() => {
-    const params = {};
+  const params = {
+    is_active: true,
+  };
 
-    if (activeCategory) params.category = activeCategory;
-    if (search) params.search = search;
+  if (activeCategory) params.category = activeCategory;
+  if (search) params.search = search;
 
-    fetchAll(params);
-  }, [activeCategory, search]);
+  fetchAll(params);
+}, [activeCategory, search]);
 
   const handleCategory = (slug) => {
     setActiveCategory(slug);
