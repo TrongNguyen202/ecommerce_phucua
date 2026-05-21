@@ -61,9 +61,9 @@ services:
       dockerfile: Dockerfile
       args:
         VITE_API_URL: https://sundesign.io/api
-        VITE_BANK_NUMBER: "9968083967"
-        VITE_BANK_NAME: VCB
-        VITE_ACCOUNT_NAME: NGUYEN DINH TRONG
+        VITE_BANK_NUMBER: "0369298428"
+        VITE_BANK_NAME: MBBank
+        VITE_ACCOUNT_NAME: DANG VAN PHU
 
     container_name: cloth_frontend
 
