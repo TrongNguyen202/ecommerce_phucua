@@ -17,7 +17,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     filter_backends = [DjangoFilterBackend, SearchFilter]
 
-    filterset_fields = ["is_featured"]
+    filterset_fields = ["is_featured", "is_active"]
     search_fields = ["name", "description"]
 
     def get_queryset(self):

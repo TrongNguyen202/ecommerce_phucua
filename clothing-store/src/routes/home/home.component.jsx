@@ -288,7 +288,7 @@ const bestsellers = products
     <section className="top-banner">
       <div className="top-banner__slider">
         <img
-          src="https://img.staticdj.com/d27e5d131b351345095721df91369b49_1024x.jpg"
+          src="https://i.ibb.co/v4SNDMvf/7d98ef97f6734024826a1ebdeae21a4a-tplv-reeeghz8mm-image-1600w.png"
           alt="banner"
           className="top-banner__img"
         />

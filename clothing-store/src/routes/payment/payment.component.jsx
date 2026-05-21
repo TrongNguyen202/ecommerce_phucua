@@ -91,7 +91,7 @@ const Payment = () => {
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const paymentCode = currentPayment?.payment_code || `SHOP${orderId}`;
+  const paymentCode = currentPayment?.payment_code ;
   console.log("current payment", currentPayment)
   // Ưu tiên: currentPayment.amount → order.total → 0
   // const amount = Number(currentPayment?.amount) || Number(order?.total) || 0;
