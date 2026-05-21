@@ -20,7 +20,7 @@ const CategoriesPage = () => {
   const handleClick = (slug) => {
     navigate(`/shop?category=${slug}`);
   };
-
+console.log(categories)
   return (
     <div className="categories-page">
       <Header />

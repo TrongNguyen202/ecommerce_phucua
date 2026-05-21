@@ -12,9 +12,9 @@ import {
 } from "../../store/slices/paymentSlice";
 import "./payment.styles.scss";
 
-const BANK_NUMBER  = import.meta.env.VITE_BANK_NUMBER   || "9968083967";
-const BANK_NAME    = import.meta.env.VITE_BANK_NAME     || "VCB";
-const ACCOUNT_NAME = import.meta.env.VITE_ACCOUNT_NAME  || "NGUYEN DINH TRONG";
+const BANK_NUMBER  = import.meta.env.VITE_BANK_NUMBER   || "0369298428";
+const BANK_NAME    = import.meta.env.VITE_BANK_NAME     || "MBBank";
+const ACCOUNT_NAME = import.meta.env.VITE_ACCOUNT_NAME  || "DANG VAN PHU";
 
 const Payment = () => {
   const { orderId } = useParams();
@@ -92,19 +92,20 @@ const Payment = () => {
   };
 
   const paymentCode = currentPayment?.payment_code || `SHOP${orderId}`;
-console.log("currentPayment",currentPayment)
-console.log("order", order)
+  console.log("current payment", currentPayment)
   // Ưu tiên: currentPayment.amount → order.total → 0
   // const amount = Number(currentPayment?.amount) || Number(order?.total) || 0;
   const amount = Number(order?.total)
 console.log("ammount", amount)
   // Chỉ build QR khi có đủ dữ liệu
   const qrUrl = amount > 0
-    ? `https://img.vietqr.io/image/${BANK_NAME}-${BANK_NUMBER}-compact2.png`
-      + `?amount=${Math.round(amount)}`
-      + `&addInfo=${encodeURIComponent(paymentCode)}`
-      + `&accountName=${encodeURIComponent(ACCOUNT_NAME)}`
-    : null;
+  ? `https://qr.sepay.vn/img` +
+    `?acc=${BANK_NUMBER}` +
+    `&bank=${BANK_NAME}` +
+    `&amount=${Math.round(amount)}` +
+    `&des=${encodeURIComponent(paymentCode)}` +
+    `&template=compact` 
+  : null;
 
   // ── Success screen
   if (isPaid) {

@@ -1,6 +1,6 @@
 from django.db import models
 from orders.models import Order
-
+import uuid
 
 class Payment(models.Model):
 
@@ -26,13 +26,12 @@ class Payment(models.Model):
     updated_at     = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        # Tự sinh payment_code từ order_id nếu chưa có
         if not self.payment_code and self.order_id:
-            self.payment_code = f"SHOP{self.order_id}"
+            self.payment_code = f"PAY{self.order_id}-{uuid.uuid4().hex[:8].upper()}"
         super().save(*args, **kwargs)
 
-    def __str__(self):
-        return f"Payment #{self.pk} | {self.payment_code} | {self.status}"
+        def __str__(self):
+            return f"Payment #{self.pk} | {self.payment_code} | {self.status}"
 
 
 class SePayTransaction(models.Model):

@@ -162,7 +162,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # settings.py
 from decouple import config
 
-SEPAY_WEBHOOK_API_KEY = config("SEPAY_WEBHOOK_API_KEY", default="")
+# SEPAY_WEBHOOK_API_KEY = config("SEPAY_WEBHOOK_API_KEY", default="")
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
@@ -243,4 +243,4 @@ MEDIA_URL  = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # ── SePay ───────────────────────────────────────────────────
-SEPAY_WEBHOOK_API_KEY = config("SEPAY_WEBHOOK_API_KEY", default="")
+SEPAY_WEBHOOK_API_KEY = config("NXTT6QK8ZHFCGIZIKQ9B3R5VEDPHF7OIVJUXOPSWRDKXB0KA7NCG6L202SHCMTNN", default="NXTT6QK8ZHFCGIZIKQ9B3R5VEDPHF7OIVJUXOPSWRDKXB0KA7NCG6L202SHCMTNN")
