@@ -64,6 +64,7 @@ import Profile from "./routes/profile/Profile.component";
 import AdminLayout from "./routes/admin/admin.component";
 import CategoriesPage from "./routes/category/CategoriesPage";
 import ProductsPage from "./routes/product/ProductsPage";
+import CollectionRedirect from "./routes/collections/CollectionRedirect";
 // Route yêu cầu đăng nhập
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem("access_token");
@@ -98,6 +99,7 @@ const App = () => {
       <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
       <Route path="/admin/*"           element={<AdminLayout />} />
       <Route path="/categories" element={<CategoriesPage />} />
+      <Route path="/collections/:slug" element={<CollectionRedirect />} />
       <Route path="/products" element={<ProductsPage />} />
     </Routes>
   );

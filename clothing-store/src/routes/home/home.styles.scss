@@ -214,7 +214,7 @@ $white: #ffffff;
 .product-card {
   cursor: pointer;
   border-radius: 16px;
-  overflow: hidden;
+  overflow: border-box;
   background: $white;
   border: 1px solid $border;
   transition: box-shadow 0.25s, transform 0.25s;
@@ -286,7 +286,7 @@ $white: #ffffff;
   &__name {
     font-size: 0.95rem;
     font-weight: 600;
-    color: white;
+    color: $dark;
     margin: 0 0 6px;
     line-height: 1.3;
     white-space: nowrap;
@@ -459,7 +459,7 @@ $white: #ffffff;
 
   &__img {
     width: 100%;
-    aspect-ratio: 1/1.2;
+    aspect-ratio: 1/1,2;
     object-fit: cover;
     transition: transform 0.3s ease;
   }

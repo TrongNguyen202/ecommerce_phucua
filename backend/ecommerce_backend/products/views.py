@@ -16,7 +16,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     lookup_field = "slug"
 
     filter_backends = [DjangoFilterBackend, SearchFilter]
-
+    filterset_fields = ["is_active"]
     filterset_fields = ["is_featured"]
     search_fields = ["name", "description"]
 

@@ -7,18 +7,16 @@ import { useCart }    from "../../store/hooks";
 import AIChat from "../aichat/ai-chat.component";
 import "./home.styles.scss";
 
-// ─── Product Card ────────────────────────────────────────────────
+// ─── Product Card ───────────────────────-------
 const ProductCard = ({ product, onAddToCart }) => {
   const navigate = useNavigate();
   const [added, setAdded] = useState(false);
-
   const handleAdd = (e) => {
     e.stopPropagation();
     onAddToCart(product);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   };
-
   return (
     <div className="product-card" onClick={() => navigate(`/product/${product.slug}`)}>
       <div className="product-card__img-wrap">
@@ -66,6 +64,7 @@ const ProductCard = ({ product, onAddToCart }) => {
 //     ))}
 //   </div>
 // );
+
 const CategoryTabs = ({ categories, activeSlug, onSelect }) => (
   <div className="cat-grid">
     {/* ALL */}
@@ -105,7 +104,8 @@ const CategoryTabs = ({ categories, activeSlug, onSelect }) => (
     ))}
   </div>
 );
-// ─── Skeleton ────────────────────────────────────────────────────
+
+// ─── Skeleton ───────────────────────────────────────────────────
 const SkeletonCard = () => (
   <div className="skeleton-card">
     <div className="skeleton-card__img" />
@@ -115,7 +115,7 @@ const SkeletonCard = () => (
   </div>
 );
 
-// ─── Home Page ───────────────────────────────────────────────────
+// ─── Home Page ──────────────────────────────────────────────────
 const Home = () => {
   const navigate = useNavigate();
   const {
@@ -165,7 +165,7 @@ const handleSearch = (q) => {
 
   // Bestsellers: filter featured từ products hoặc dùng featured list
   // Bestsellers
-// ─── Bestsellers ─────────────────────────────
+// ─── Bestsellers ─────────────────────────────---------------------
 const bestsellers = products
   ?.filter((p) => p.is_featured === true)
   ?.slice(0, 8) || [];
@@ -288,7 +288,7 @@ const bestsellers = products
     <section className="top-banner">
       <div className="top-banner__slider">
         <img
-          src="https://img.staticdj.com/d27e5d131b351345095721df91369b49_1024x.jpg"
+          src="https://i.ibb.co/v4SNDMvf/7d98ef97f6734024826a1ebdeae21a4a-tplv-reeeghz8mm-image-1600w.png"
           alt="banner"
           className="top-banner__img"
         />
@@ -317,13 +317,13 @@ const bestsellers = products
     </section>
 
     {/* ───────── CATEGORY TABS ───────── */}
-    <section className="category-section">
+     // <section className="category-section">
       <CategoryTabs
         categories={categories}
         activeSlug={activeCategory}
         onSelect={handleCategorySelect}
       />
-    </section>
+    </section>  
 
     {/* ───────── BEST SELLERS ───────── */}
     <section className="section" id="bestsellers">
@@ -342,7 +342,7 @@ const bestsellers = products
                   key={p.id}
                   product={p}
                   onAddToCart={handleAddToCart}
-                />
+                /> 
               ))}
         </div>
       </div>

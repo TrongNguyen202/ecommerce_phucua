@@ -21,6 +21,7 @@ export default function AIChat() {
 
     setMessages(prev => [...prev, userMessage]);
 
+    setMessage("");
     const token = localStorage.getItem("access_token");
 
     try {
@@ -46,7 +47,7 @@ export default function AIChat() {
         }
       ]);
 
-      setMessage("");
+      // setMessages([]);
 
     } catch (error) {
       console.log(error);
@@ -112,6 +113,7 @@ export default function AIChat() {
               placeholder="Hỏi AI về sản phẩm..."
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
+                  e.preventDefault()
                   sendMessage();
                 }
               }}

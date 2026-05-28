@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../components/header/header.component";
 import Footer  from "../../components/footer/footer.component";
 import { useOrder } from "../../store/hooks";
+import { variantApi } from "../../utils/api/api";
 import "./orders.styles.scss";
 
 const STATUS_LABEL = {
@@ -15,7 +16,7 @@ const STATUS_LABEL = {
   refunded:   { text: "Đã hoàn tiền",  color: "gray"  },
 };
 
-const OrderCard = ({ order, onCancel }) => {
+const OrderCard = ({ order, onCancel, imagesMap }) => {
   const navigate = useNavigate();
   const status   = STATUS_LABEL[order.status] || { text: order.status, color: "gray" };
   const canCancel = ["pending", "confirmed"].includes(order.status);
@@ -41,10 +42,18 @@ const OrderCard = ({ order, onCancel }) => {
         {order.items?.slice(0, 3).map((item) => (
           <div key={item.id} className="order-card__item">
             <img
-              src={item.variant?.image || item.variant?.product?.thumbnail
-                || "https://placehold.co/56x72/f5f0e8/c8a96e?text=?"}
+              src={
+                (typeof resolveImageValue === 'function' ? resolveImageValue(item.variant?.image) : item.variant?.image)
+                || (typeof resolveImageValue === 'function' ? resolveImageValue(item.variant?.images?.[0]) : item.variant?.images?.[0])
+                || imagesMap?.[item.variant?.id]
+                || item.variant?.product?.thumbnail
+                || item.product?.thumbnail
+                || (item.product?.images?.[0] && (typeof item.product.images[0] === 'string' ? item.product.images[0] : item.product.images[0].url))
+                || "https://placehold.co/56x72/f5f0e8/c8a96e?text=?"
+              }
               alt={item.product_name}
               className="order-card__item-img"
+              onError={(e) => { e.currentTarget.src = "https://placehold.co/56x72/f5f0e8/c8a96e?text=?"; }}
             />
             <div className="order-card__item-info">
               <p className="order-card__item-name">{item.product_name}</p>
@@ -102,12 +111,90 @@ const OrderCard = ({ order, onCancel }) => {
   );
 };
 
+// Find an image URL anywhere inside a value (string/object) by keys or by url pattern
+const resolveImageValue = (val) => {
+  if (!val) return null;
+  // if direct string that looks like url / image
+  if (typeof val === "string") {
+    if (val.match(/^https?:\/\/.+\.(jpg|jpeg|png|webp|gif|svg)(\?.*)?$/i) || val.startsWith("data:")) return val;
+    if (val.startsWith("http")) return val;
+    return null;
+  }
+
+  // recursive search inside objects and arrays
+  const seen = new Set();
+  const stack = [val];
+
+  while (stack.length) {
+    const node = stack.pop();
+    if (!node || typeof node !== "object") continue;
+    if (seen.has(node)) continue;
+    seen.add(node);
+
+    // common keys
+    for (const key of ["url", "src", "image", "thumbnail", "file", "path"]) {
+      const v = node[key];
+      if (typeof v === "string") {
+        if (v.match(/^https?:\/\/.+\.(jpg|jpeg|png|webp|gif|svg)(\?.*)?$/i) || v.startsWith("http") || v.startsWith("data:")) return v;
+      }
+      if (typeof v === "object") stack.push(v);
+    }
+
+    // also scan all properties
+    for (const k in node) {
+      if (!Object.prototype.hasOwnProperty.call(node, k)) continue;
+      const v = node[k];
+      if (typeof v === "string") {
+        if (v.match(/^https?:\/\/.+\.(jpg|jpeg|png|webp|gif|svg)(\?.*)?$/i) || v.startsWith("http") || v.startsWith("data:")) return v;
+      } else if (typeof v === "object") {
+        stack.push(v);
+      }
+    }
+  }
+
+  return null;
+};
+
 const Orders = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const isSuccess = searchParams.get("success") === "true";
 
   const { list: orders, loading, fetchAll, cancel } = useOrder();
+  const [imagesMap, setImagesMap] = useState({});
+
+
+  // fetch variant/product images for order items that lack image url
+  useEffect(() => {
+    if (!orders || orders.length === 0) return;
+
+    const missing = [];
+    orders.forEach((order) => {
+      order.items?.forEach((item) => {
+        // try to find any image inside the whole item structure
+        const hasImage = resolveImageValue(item) || resolveImageValue(item.variant) || resolveImageValue(item.product);
+        const variantId = item.variant?.id;
+        if (!hasImage && variantId && !imagesMap[variantId]) {
+          missing.push(variantId);
+        }
+      });
+    });
+
+    const uniq = Array.from(new Set(missing));
+
+    // fetch each missing variant once
+    uniq.forEach(async (vid) => {
+      try {
+        const { data } = await variantApi.getById(vid);
+        const url = resolveImageValue(data) || resolveImageValue(data.product) || resolveImageValue(data.images?.[0]) || resolveImageValue(data.image);
+        if (url) {
+          setImagesMap((m) => ({ ...m, [vid]: url }));
+        }
+      } catch (err) {
+        // ignore
+      }
+    });
+  }, [orders]);
 
   useEffect(() => {
     fetchAll();
@@ -151,7 +238,7 @@ const Orders = () => {
           ) : (
             <div className="orders-list">
               {orders.map((order) => (
-                <OrderCard key={order.id} order={order} onCancel={cancel} />
+                <OrderCard key={order.id} order={order} onCancel={cancel} imagesMap={imagesMap} />
               ))}
             </div>
           )}

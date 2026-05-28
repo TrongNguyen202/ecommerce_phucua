@@ -164,13 +164,13 @@ const Header = ({ onSearch }) => {
           <Link to="/">HOME</Link>
           <Link to="/products">SHOP</Link>
           <Link to="/categories">CATEGORIES</Link>
-          <Link to="/orders">TRACK ORDER</Link>
+          <Link to="/orders">ORDER</Link>
         </nav>
 
         {/* CENTER LOGO */}
         <Link to="/" className="header__logo">
           <img
-            src="https://cdn.corenexis.com/files/c/9593613720.png"
+            src="https://i.ibb.co/wFstPZXN/logo-web-den.png"
             alt="Sporttp Logo"
             className="header__logo-img"
           />

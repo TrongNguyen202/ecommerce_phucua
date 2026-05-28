@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Header from "../../components/header/header.component";
 import Footer  from "../../components/footer/footer.component";
 import { useCart }    from "../../store/hooks";
@@ -96,7 +96,21 @@ const AddressForm = ({ onSave, onCancel }) => {
 // ─── Checkout Page ───────────────────────────────────────────────
 const Checkout = () => {
   const navigate = useNavigate();
-  const { items, totalPrice, fetchCart } = useCart();
+  const { items, totalPrice: fullTotalPrice, fetchCart } = useCart();
+  const location = useLocation();
+  const navSelectedIds = location.state?.selectedIds || [];
+
+  const displayItems = navSelectedIds.length > 0
+    ? items.filter((it) => navSelectedIds.includes(it.id))
+    : items;
+
+  const basePrice = displayItems.reduce((s, it) => {
+    const variant = it.variant || {};
+    return s + (Number(variant.price || it.unit_price || 0) * Number(it.quantity || 0));
+  }, 0);
+
+  const shippingFee = basePrice >= 500000 ? 0 : 30000;
+  const total = basePrice + shippingFee;
   const {
     addresses, checkoutLoading, error,
     fetchAddresses, createAddress, checkout,
@@ -108,8 +122,7 @@ const Checkout = () => {
   const [payMethod, setPayMethod]         = useState("sepay");
   const [note, setNote]                   = useState("");
 
-  const shippingFee = Number(totalPrice) >= 500000 ? 0 : 30000;
-  const total       = Number(totalPrice) + shippingFee;
+  // (computed above using selected items when present)
 
   useEffect(() => {
     fetchCart();
@@ -258,10 +271,10 @@ const Checkout = () => {
 
           {/* Right: order summary */}
           <div className="checkout-summary">
-            <h2 className="checkout-summary__title">Đơn hàng ({items.length} sản phẩm)</h2>
+            <h2 className="checkout-summary__title">Đơn hàng ({displayItems.reduce((s,it) => s + Number(it.quantity||0), 0)} sản phẩm)</h2>
 
             <div className="checkout-summary__items">
-              {items.map((item) => {
+              {displayItems.map((item) => {
                 const variant = item.variant || {};
                 return (
                   <div key={item.id} className="checkout-summary__item">
@@ -291,7 +304,7 @@ const Checkout = () => {
             <div className="checkout-summary__rows">
               <div className="checkout-summary__row">
                 <span>Tạm tính</span>
-                <span>{Number(totalPrice).toLocaleString("vi-VN")}₫</span>
+                <span>{Number(basePrice).toLocaleString("vi-VN")}₫</span>
               </div>
               <div className="checkout-summary__row">
                 <span>Phí vận chuyển</span>
@@ -313,7 +326,7 @@ const Checkout = () => {
             <button
               className="btn btn--primary checkout-summary__btn"
               onClick={handlePlaceOrder}
-              disabled={checkoutLoading || items.length === 0}
+              disabled={checkoutLoading || displayItems.length === 0}
             >
               {checkoutLoading ? "Đang xử lý..." : "Đặt hàng"}
             </button>

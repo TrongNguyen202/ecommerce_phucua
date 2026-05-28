@@ -55,9 +55,24 @@ const ProductsPage = () => {
     fetchAll(params);
   }, [activeCategory, search]);
 
+  // Keep state in sync when query params change (e.g., user clicks footer link)
+  useEffect(() => {
+    const categoryFromUrl = searchParams.get("category") || null;
+    const qFromUrl = searchParams.get("q") || "";
+
+    if (categoryFromUrl !== activeCategory) {
+      setActiveCategory(categoryFromUrl);
+    }
+
+    if (qFromUrl !== search) {
+      setSearch(qFromUrl);
+    }
+  }, [searchParams]);
+
   const handleCategory = (slug) => {
     setActiveCategory(slug);
-    navigate(`/products?category=${slug || ""}`);
+    if (slug) navigate(`/products?category=${slug}`);
+    else navigate(`/products`);
   };
 
   const handleSearch = (e) => {

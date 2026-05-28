@@ -593,8 +593,7 @@ const AdminLayout = () => {
         <div className="adm-sidebar__brand">
           {!collapsed && (
             <>
-              <span className="adm-brand-mark">C</span>
-              <span className="adm-brand-text">LOTH</span>
+              <span className="adm-brand-text">IRONBORN</span>
               <span className="adm-brand-tag">Admin</span>
             </>
           )}

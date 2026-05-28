@@ -9,7 +9,7 @@ const Footer = () => (
       {/* BRAND */}
       <div className="footer__brand">
         <img
-          src="https://cdn.corenexis.com/files/c/9593613720.png"
+          src="https://i.ibb.co/JwbF31FQ/logo-web.png"
           alt="Cloth Logo"
           className="footer__logo-img"
         />
@@ -17,7 +17,7 @@ const Footer = () => (
         <p className="footer__tagline">
           Áo thun Thể Thao — Phong cách của bạn.
         </p>
-
+        
         {/* SOCIAL ICONS */}
         {/* <div className="footer__social">
           <a
@@ -56,14 +56,13 @@ const Footer = () => (
   </a>
 
   <a
-    href="https://www.instagram.com/sporttn_official/"
+    href="https://www.instagram.com/phulopziu/?utm_source=ig_web_button_share_sheet"
     target="_blank"
     rel="noreferrer"
     className="footer__social-icon footer__social-icon--ig"
   >
     <FaInstagram />
   </a>
-
   <a
     href="mailto:phucua2004@gmail.com"
     className="footer__social-icon footer__social-icon--mail"
@@ -72,58 +71,45 @@ const Footer = () => (
   </a>
 </div>
       </div>
-
       {/* COLUMNS */}
       <div className="footer__cols">
-
         {/* COLLECTIONS */}
         <div className="footer__col">
           <h4 className="footer__col-title">Collections</h4>
-
-          <Link to="/collections/home" className="footer__link">Home</Link>
-          <Link to="/collections/music-tee" className="footer__link">Music Tee</Link>
-          <Link to="/collections/movies-tee" className="footer__link">Movies Tee</Link>
-          <Link to="/collections/football-tee" className="footer__link">Football Tee</Link>
-          <Link to="/collections/basketball-tee" className="footer__link">Basketball Tee</Link>
-          <Link to="/collections/soccer-tee" className="footer__link">Soccer Tee</Link>
-          <Link to="/collections/ufc-wwe-tee" className="footer__link">UFC & WWE Tee</Link>
-          <Link to="/collections/baseball-tee" className="footer__link">Baseball Tee</Link>
-          <Link to="/collections/vintage-tee" className="footer__link">Vintage Tee</Link>
-          <Link to="/collections/formula-one-tee" className="footer__link">Formula One Tee</Link>
+          <Link to="/products?category=air-craft-shirt" className="footer__link">AIR CRAFT SHIRT</Link>
+          <Link to="/products?category=tactical-shirt" className="footer__link">TACTICAL SHIRT</Link>
         </div>
 
         {/* ACCOUNT */}
         <div className="footer__col">
           <h4 className="footer__col-title">Account</h4>
-
           <Link to="/login" className="footer__link">Login</Link>
           <Link to="/register" className="footer__link">Register</Link>
-          <Link to="/orders" className="footer__link">Orders</Link>
+          <Link to="/orders" className="footer__link">Orders</Link> 
         </div>
 
         {/* SUPPORT */}
         <div className="footer__col">
           <h4 className="footer__col-title">Support</h4>
 
-          <a href="mailto:support@sporttr.vn" className="footer__link">
-            support@sporttr.vn
+          <a href="mailto:dangvanphu201104@gmail.com" className="footer__link">
+            dangvanphu201104@gmail.com
           </a>
 
-          <a href="tel:0900000000" className="footer__link">
-            0900 000 000
+          <a href="tel:0369298428" className="footer__link">
+            0369298428
           </a>
 
           <span className="footer__link footer__link--muted">
             8:00 – 22:00 hàng ngày
           </span>
         </div>
-
       </div>
     </div>
 
     {/* BOTTOM */}
     <div className="footer__bottom">
-      <p>© {new Date().getFullYear()} Sporttp. All rights reserved.</p>
+      <p>© {new Date().getFullYear()} IRONBORN. All rights reserved.</p>
     </div>
   </footer>
 );

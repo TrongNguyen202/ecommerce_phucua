@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/header.component";
 import Footer from "../../components/footer/footer.component";
@@ -9,7 +9,7 @@ import "./cart.styles.scss";
 // ─────────────────────────────────────────────
 // Cart Item
 // ─────────────────────────────────────────────
-const CartItem = ({ item, onUpdate, onRemove }) => {
+const CartItem = ({ item, onUpdate, onRemove, selected, onToggleSelect }) => {
   const variant = item.variant || {};
   const product = variant.product || {};
 
@@ -18,9 +18,23 @@ const CartItem = ({ item, onUpdate, onRemove }) => {
 
   return (
     <div className="cart-item">
+      {/* SELECT (left of image) */}
+      <div className="cart-item__select">
+        <label className="cart-item__select-label" htmlFor={`select-${item.id}`}>
+          <input
+            id={`select-${item.id}`}
+            type="checkbox"
+            className="cart-item__select-input"
+            onChange={() => onToggleSelect(item.id)}
+            checked={!!selected}
+          />
+          <span className="cart-item__select-box" aria-hidden />
+        </label>
+      </div>
+
       {/* IMAGE */}
       <div className="cart-item__img-wrap">
-        <img
+        <img  
           src={
             variant.image ||
             product.thumbnail ||
@@ -153,6 +167,15 @@ const Cart = () => {
 
   const { isLoggedIn } = useAuth();
 
+  const [selectedIds, setSelectedIds] = useState([]);
+
+  const toggleSelect = (id) => {
+    setSelectedIds((prev) => {
+      if (prev.includes(id)) return prev.filter((x) => x !== id);
+      return [...prev, id];
+    });
+  };
+
   const {
     items,
     totalPrice,
@@ -247,6 +270,8 @@ console.log("hasOutOfStock", hasOutOfStock)
                     item={item}
                     onUpdate={updateItem}
                     onRemove={removeItem}
+                    selected={selectedIds.includes(item.id)}
+                    onToggleSelect={toggleSelect}
                   />
                 ))}
               </div>
@@ -264,13 +289,26 @@ console.log("hasOutOfStock", hasOutOfStock)
               <div className="cart-summary__rows">
                 <div className="cart-summary__row">
                   <span>
-                    Tạm tính ({totalItems} sản phẩm)
+                    Tạm tính ({/* selected count */}
+                    {selectedIds.length > 0
+                      ? items
+                          .filter((it) => selectedIds.includes(it.id))
+                          .reduce((s, it) => s + Number(it.quantity || 0), 0)
+                      : totalItems}{" "}sản phẩm)
                   </span>
 
                   <span>
-                    {Number(totalPrice).toLocaleString(
-                      "vi-VN"
-                    )}
+                    {Number(
+                      selectedIds.length > 0
+                        ? items
+                            .filter((it) => selectedIds.includes(it.id))
+                            .reduce(
+                              (s, it) =>
+                                s + (Number(it.variant?.price || it.unit_price || 0) * Number(it.quantity || 0)),
+                              0
+                            )
+                        : totalPrice
+                    ).toLocaleString("vi-VN")}
                     ₫
                   </span>
                 </div>
@@ -279,7 +317,17 @@ console.log("hasOutOfStock", hasOutOfStock)
                   <span>Phí vận chuyển</span>
 
                   <span className="cart-summary__free">
-                    {Number(totalPrice) >= 500000
+                    {Number(
+                      selectedIds.length > 0
+                        ? items
+                            .filter((it) => selectedIds.includes(it.id))
+                            .reduce(
+                              (s, it) =>
+                                s + (Number(it.variant?.price || it.unit_price || 0) * Number(it.quantity || 0)),
+                              0
+                            )
+                        : totalPrice
+                    ) >= 500000
                       ? "Miễn phí"
                       : "30.000₫"}
                   </span>
@@ -293,27 +341,53 @@ console.log("hasOutOfStock", hasOutOfStock)
                 <span>Tổng cộng</span>
 
                 <span>
-                  {Number(totalPrice) >= 500000
-                    ? Number(totalPrice).toLocaleString(
-                        "vi-VN"
-                      )
-                    : (
-                        Number(totalPrice) + 30000
-                      ).toLocaleString("vi-VN")}
+                  {(() => {
+                    const base = Number(
+                      selectedIds.length > 0
+                        ? items
+                            .filter((it) => selectedIds.includes(it.id))
+                            .reduce(
+                              (s, it) =>
+                                s + (Number(it.variant?.price || it.unit_price || 0) * Number(it.quantity || 0)),
+                              0
+                            )
+                        : totalPrice
+                    );
+
+                    return (
+                      (base >= 500000 ? base : base + 30000)
+                    ).toLocaleString("vi-VN");
+                  })()}
                   ₫
                 </span>
               </div>
 
               {/* FREE SHIP */}
-              {Number(totalPrice) < 500000 && (
-                <p className="cart-summary__hint">
-                  Mua thêm{" "}
-                  {(
-                    500000 - Number(totalPrice)
-                  ).toLocaleString("vi-VN")}
-                  ₫ để được miễn phí vận chuyển
-                </p>
-              )}
+              {(() => {
+                const base = Number(
+                  selectedIds.length > 0
+                    ? items
+                        .filter((it) => selectedIds.includes(it.id))
+                        .reduce(
+                          (s, it) =>
+                            s + (Number(it.variant?.price || it.unit_price || 0) * Number(it.quantity || 0)),
+                          0
+                        )
+                    : totalPrice
+                );
+
+                if (base < 500000) {
+                  return (
+                    <p className="cart-summary__hint">
+                      Mua thêm {(
+                        500000 - base
+                      ).toLocaleString("vi-VN")}₫ để được miễn phí vận chuyển
+                    </p>
+                  );
+                }
+
+                return null;
+              })()}
 
               {/* ERROR */}
               {hasOutOfStock && (
@@ -325,19 +399,18 @@ console.log("hasOutOfStock", hasOutOfStock)
               {/* CHECKOUT */}
               <button
                 className="btn btn--primary cart-summary__checkout"
-                disabled={hasOutOfStock}
+                disabled={hasOutOfStock || selectedIds.length === 0}
                 onClick={() => {
-                  if (hasOutOfStock) return;
+                  if (hasOutOfStock || selectedIds.length === 0) return;
 
-                  const token =
-                    localStorage.getItem("access_token");
+                  const token = localStorage.getItem("access_token");
 
                   if (!token) {
                     navigate("/login");
                     return;
                   }
 
-                  navigate("/checkout");
+                  navigate("/checkout", { state: { selectedIds } });
                 }}
               >
                 {localStorage.getItem("access_token")
