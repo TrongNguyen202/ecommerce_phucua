@@ -24,26 +24,36 @@ const Payment = () => {
   const { currentPayment, isPolling, isPaid, createSePay, clearPayment } = usePayment();
   const { fetchById, detail: order } = useOrder();
 
-  const [copied,    setCopied]    = useState(null);
-  const [initDone,  setInitDone]  = useState(false); // đã fetch xong chưa
+  const [copied,   setCopied]   = useState(null);
+  const [initDone, setInitDone] = useState(false);
 
-  // ── Init: fetch order + payment hiện có hoặc tạo mới
   useEffect(() => {
     if (!orderId) return;
 
     const init = async () => {
-      // 1. Fetch order để lấy total
       await fetchById(orderId);
 
-      // 2. Kiểm tra payment đã tồn tại chưa
       try {
         const { data } = await api.get("/payments/", {
           params: { order: orderId },
         });
-        const existing = data.results?.[0] ?? data[0];
+        console.log(">>> RAW data:", data);
+  console.log(">>> data.id:", data?.id);
+
+        // API có thể trả về object thẳng, array, hoặc { results: [] }
+        let existing = null;
+if (data?.id) {
+  existing = data;
+} else if (Array.isArray(data)) {
+  // Filter đúng order thay vì lấy [0]
+  existing = data.find(p => String(p.order) === String(orderId)) ?? null;
+} else if (data?.results) {
+  existing = data.results.find(p => String(p.order) === String(orderId)) ?? null;
+}
+
+        console.log(">>> existing sau parse:", existing);
 
         if (existing) {
-          // Đã có payment → dùng luôn
           dispatch(setCurrentPayment(existing));
 
           if (existing.status === "pending") {
@@ -55,12 +65,25 @@ const Payment = () => {
             window.__stopSePayPolling = stopFn;
           }
         } else {
-          // Chưa có → tạo mới
-          await createSePay(orderId);
+          const payment = await createSePay(orderId);
+          if (payment) {
+            dispatch(setCurrentPayment(payment));
+            if (payment.status === "pending") {
+              dispatch(startPolling());
+              const stopFn = paymentApi.pollStatus(orderId, (paid) => {
+                dispatch(setCurrentPayment(paid));
+                dispatch(stopPolling());
+              });
+              window.__stopSePayPolling = stopFn;
+            }
+          }
         }
-      } catch {
-        // Fallback: tạo mới nếu fetch lỗi
-        await createSePay(orderId);
+      } catch (err) {
+        console.error(">>> RƠI VÀO CATCH:", err);
+        const payment = await createSePay(orderId);
+        if (payment) {
+          dispatch(setCurrentPayment(payment));
+        }
       }
 
       setInitDone(true);
@@ -69,13 +92,10 @@ const Payment = () => {
     init();
 
     return () => {
-      if (window.__stopSePayPolling) {
-        window.__stopSePayPolling();
-      }
+      window.__stopSePayPolling?.();
     };
   }, [orderId]);
 
-  // ── Redirect khi đã thanh toán
   useEffect(() => {
     if (isPaid) {
       setTimeout(() => {
@@ -91,23 +111,22 @@ const Payment = () => {
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const paymentCode = currentPayment?.payment_code || `SHOP${orderId}`;
-  console.log("current payment", currentPayment)
-  // Ưu tiên: currentPayment.amount → order.total → 0
-  // const amount = Number(currentPayment?.amount) || Number(order?.total) || 0;
-  const amount = Number(order?.total)
-console.log("ammount", amount)
-  // Chỉ build QR khi có đủ dữ liệu
-  const qrUrl = amount > 0
-  ? `https://qr.sepay.vn/img` +
-    `?acc=${BANK_NUMBER}` +
-    `&bank=${BANK_NAME}` +
-    `&amount=${Math.round(amount)}` +
-    `&des=${encodeURIComponent(paymentCode)}` +
-    `&template=compact` 
-  : null;
+  const paymentCode = currentPayment?.payment_code ?? "";
+  const amount      = Number(order?.total) || 0;
 
-  // ── Success screen
+  console.log("current payment", currentPayment);
+  console.log("payment_code", paymentCode);
+  console.log("amount", amount);
+
+  const qrUrl = amount > 0 && paymentCode
+    ? `https://qr.sepay.vn/img` +
+      `?acc=${BANK_NUMBER}` +
+      `&bank=${BANK_NAME}` +
+      `&amount=${Math.round(amount)}` +
+      `&des=${encodeURIComponent(paymentCode)}` +
+      `&template=compact`
+    : null;
+
   if (isPaid) {
     return (
       <div className="payment-page">
@@ -135,7 +154,6 @@ console.log("ammount", amount)
               <p className="payment-card__sub">Quét mã QR hoặc chuyển khoản thủ công</p>
             </div>
 
-            {/* QR Code */}
             <div className="payment-qr">
               {qrUrl ? (
                 <>
@@ -144,7 +162,6 @@ console.log("ammount", amount)
                     alt="QR thanh toán"
                     className="payment-qr__img"
                     onError={(e) => {
-                      // Retry sau 2 giây nếu lỗi
                       setTimeout(() => {
                         e.target.src = qrUrl + "&_t=" + Date.now();
                       }, 2000);
@@ -165,7 +182,6 @@ console.log("ammount", amount)
               )}
             </div>
 
-            {/* Bank info */}
             <div className="bank-info">
               <div className="bank-info__row">
                 <span className="bank-info__label">Ngân hàng</span>
@@ -194,7 +210,7 @@ console.log("ammount", amount)
                 <span className="bank-info__label">Số tiền</span>
                 <span className="bank-info__val bank-info__val--amount">
                   {amount > 0
-                    ? Number(amount).toLocaleString("vi-VN") + "₫"
+                    ? amount.toLocaleString("vi-VN") + "₫"
                     : "Đang tải..."}
                 </span>
               </div>
@@ -202,10 +218,13 @@ console.log("ammount", amount)
               <div className="bank-info__row bank-info__row--highlight">
                 <span className="bank-info__label">Nội dung chuyển khoản</span>
                 <div className="bank-info__copy-wrap">
-                  <span className="bank-info__val bank-info__val--code">{paymentCode}</span>
+                  <span className="bank-info__val bank-info__val--code">
+                    {paymentCode || "Đang tải..."}
+                  </span>
                   <button
                     className={`copy-btn ${copied === "code" ? "copy-btn--done" : ""}`}
                     onClick={() => copy(paymentCode, "code")}
+                    disabled={!paymentCode}
                   >
                     {copied === "code" ? "✓ Đã sao chép" : "Sao chép"}
                   </button>

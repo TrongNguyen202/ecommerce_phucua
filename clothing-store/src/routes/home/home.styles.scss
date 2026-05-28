@@ -203,7 +203,8 @@ $white: #ffffff;
 .products-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  gap: 1rem;
+  height: max-content;
 
   @media (max-width: 1024px) { grid-template-columns: repeat(3, 1fr); }
   @media (max-width: 768px)  { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
@@ -214,7 +215,7 @@ $white: #ffffff;
 .product-card {
   cursor: pointer;
   border-radius: 16px;
-  overflow: border-box;
+  // overflow: border-box;
   background: $white;
   border: 1px solid $border;
   transition: box-shadow 0.25s, transform 0.25s;
@@ -226,8 +227,8 @@ $white: #ffffff;
 
   &__img-wrap {
     position: relative;
-    aspect-ratio: 1/1;
-    overflow: hidden;
+    // aspect-ratio: 1/1;
+    // overflow: hidden;
     background: $cream;
   }
 
@@ -453,13 +454,13 @@ $white: #ffffff;
   &__img-wrap {
     background: #f6f6f6;
     border-radius: 14px;
-    overflow: hidden;
-    position: relative;
+    // overflow: hidden;
+    // position: relative;
   }
 
   &__img {
     width: 100%;
-    aspect-ratio: 1/1,2;
+    // aspect-ratio: 1/1,2;
     object-fit: cover;
     transition: transform 0.3s ease;
   }
@@ -619,4 +620,33 @@ $white: #ffffff;
 .cat-card--active {
   border: 2px solid #fff;
   box-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
+}
+.product-card {
+  overflow: hidden;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.product-card__img-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+
+  aspect-ratio: 1 / 1; // hoặc 4/5 nếu muốn cao hơn
+  background: #f6f6f6;
+}
+
+.product-card__img {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  object-fit: cover;     // fill kín khung
+  object-position: center;
+
+  transition: transform .3s ease;
+}
+
+.product-card:hover .product-card__img {
+  transform: scale(1.04);
 }

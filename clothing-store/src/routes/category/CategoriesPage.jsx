@@ -18,8 +18,8 @@ const CategoriesPage = () => {
   }, []);
 
   const handleClick = (slug) => {
-    navigate(`/shop?category=${slug}`);
-  };
+  navigate(`/products?category=${slug}`);
+};
 console.log(categories)
   return (
     <div className="categories-page">
@@ -34,7 +34,7 @@ console.log(categories)
       {/* GRID */}
       <section className="categories-grid">
         {/* ALL */}
-        <div className="category-card" onClick={() => navigate("/shop")}>
+        <div className="category-card" onClick={() => navigate("/products")}>
           <img
             src="https://img.staticdj.com/d27e5d131b351345095721df91369b49_1024x.jpg"
             alt="all"
